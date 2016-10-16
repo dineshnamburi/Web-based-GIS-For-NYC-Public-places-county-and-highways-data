@@ -1,0 +1,65 @@
+MAP
+  IMAGETYPE      PNG
+  STATUS         ON 
+  EXTENT         915120.674000 121380.102000 1058424.068000 265810.927000
+  IMAGECOLOR     255 255 255  
+  SHAPEPATH      "/tmp"
+  
+  PROJECTION
+     "init=epsg:2263"
+  END
+  
+
+  
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE RGB
+    EXTENSION "png"
+  END
+  
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER "GD/JPEG"
+    MIMETYPE "image/jpeg"
+    IMAGEMODE RGB
+    EXTENSION "jpg"
+    FORMATOPTION QUALITY=80
+  END
+
+
+  WEB
+    METADATA
+       "wms_srs" 			"EPSG:2263 EPSG:4326"    
+       "wms_formats" 			'png'
+	   wms_enable_request "*"
+    END    
+  END
+  
+  # Start of LAYER DEFINITIONS ---------------------------------------------
+   
+   
+     LAYER # Question 3 begins here
+     NAME         question3
+     DATA         question3
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=dnamburi password=dinnu11136 dbname=proj1 host=127.0.0.1"
+     DATA "the_geom from (select st_union(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Question 3"
+       STYLE
+         COLOR        232 255 255
+         OUTLINECOLOR 32 32 32
+       END
+     END
+   END # YC Question 3 layer ends here
+
+ # End of LAYER DEFINITIONS -------------------------------
+
+END # All map files must come to an end just as all other things must come to...
+
