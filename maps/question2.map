@@ -48,7 +48,7 @@ MAP
      DUMP 	 TRUE
      CONNECTIONTYPE POSTGIS
      CONNECTION  "user=dnamburi password=dinnu11136 dbname=proj1 host=127.0.0.1"
-     DATA "the_geom from (SELECT ST_Buffer(the_geom,2000) As the_geom,gid FROM aoi) as foo using unique gid using SRID=2263"
+     DATA "the_geom from (SELECT st_buffer(ST_collect(the_geom),2000) as the_geom,row_number() OVER() as gid FROM hw  GROUP BY georte HAVING COUNT(*)>=2) as foo using unique gid using SRID=2263"
      TEMPLATE	 spwms.html
      CLASS
        NAME       "Question 3"
