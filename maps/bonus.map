@@ -40,24 +40,7 @@ MAP
   # Start of LAYER DEFINITIONS ---------------------------------------------
    
    
-     LAYER # Question 3 begins here
-     NAME         question3
-     DATA         question3
-     STATUS       ON
-     TYPE         POINT
-     DUMP 	 TRUE
-     CONNECTIONTYPE POSTGIS
-     CONNECTION  "user=dnamburi password=dinnu11136 dbname=proj1 host=127.0.0.1"
-     DATA "the_geom from (SELECT * FROM aoi) as foo using unique gid using SRID=2263"
-     TEMPLATE	 spwms.html
-     CLASS
-       NAME       "Question 3"
-       STYLE
-         COLOR        232 255 255
-         OUTLINECOLOR 32 32 32
-       END
-     END
-   END # YC Question 3 layer ends here
+     
 
  # End of LAYER DEFINITIONS -------------------------------
 

@@ -1,0 +1,18 @@
+1)SELECT ST_Buffer(the_geom,2000) As the_geom,gid FROM aoi
+
+2)SELECT st_buffer(ST_collect(the_geom),2000) as the_geom,row_number() OVER() as gid FROM hw  GROUP BY georte HAVING COUNT(*)>=2
+
+3)select the_geom, gid from cd where borocd/100=4
+
+4)select st_convexhull(st_collect(the_geom))as the_geom, 1 as gid from aoi
+
+5)select st_buffer(the_geom, 5000) as the_geom, gid from hw
+
+
+6) Create temporary tables for cg with aoi 79 and sd with aoi 79
+
+a)select st_intersection(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79
+b)select st_union(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79
+c)select st_difference(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79
+d)select st_difference(sd_79.the_geom,cg_79.the_geom) as the_geom,1 as gid from cg_79,sd_79
+e)select st_SymDifference(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79

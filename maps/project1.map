@@ -1,0 +1,249 @@
+MAP
+  IMAGETYPE      PNG
+  STATUS         ON 
+  EXTENT         915120.674000 121380.102000 1058424.068000 265810.927000
+  IMAGECOLOR     255 255 255  
+  SHAPEPATH      "/tmp"
+  
+  PROJECTION
+     "init=epsg:2263"
+  END
+  
+	SYMBOL
+	  NAME 'circle'
+	  TYPE ELLIPSE
+	  POINTS 1 1 END
+	  FILLED TRUE
+	END
+  
+
+  
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE RGB
+    EXTENSION "png"
+  END
+  
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER "GD/JPEG"
+    MIMETYPE "image/jpeg"
+    IMAGEMODE RGB
+    EXTENSION "jpg"
+    FORMATOPTION QUALITY=80
+  END
+
+
+  WEB
+    METADATA
+       "wms_srs" 			"EPSG:2263 EPSG:4326"    
+       "wms_formats" 			'png'
+	   wms_enable_request "*"
+    END    
+  END
+  
+  # Start of LAYER DEFINITIONS ---------------------------------------------
+   
+   
+     LAYER # Problem 1 begins here
+     NAME         problem1
+     DATA         problem1
+     STATUS       ON
+     TYPE         POINT
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select * from aoi) as foo using unique gid using SRID=2263"	    
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 1"
+       STYLE
+         COLOR        19 142 5
+		 SIZE		  9
+		 SYMBOL		  "circle"  
+       END
+     END
+   END # YC Problem 1 layer ends here
+   
+   LAYER # Problem 2 begins here
+     NAME         problem2
+     DATA         problem2
+     STATUS       ON
+     TYPE         LINE
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select * from hw where georte in (select georte from hw group by georte having count(georte)>1)) as foo using unique gid using SRID=2263"	    
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 2"
+       STYLE
+         COLOR        88 145 232
+		 OUTLINECOLOR 0 0 0
+		 BACKGROUNDCOLOR 0 0 0
+		 WIDTH 		   5.0
+       END
+     END
+   END # YC Problem 2 layer ends here
+   
+   LAYER # Problem 3 begins here
+     NAME         problem3
+     DATA         problem3
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select the_geom, gid from cd where borocd/100=4) as foo using unique gid using SRID=2263"	    
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 3"
+       STYLE
+         COLOR        220 88 232
+         OUTLINECOLOR 58 58 61
+		 BACKGROUNDCOLOR 255 222 3
+		 size	       1
+		 width         3
+       END
+     END
+   END # YC Problem 3 layer ends here
+   
+    LAYER # Problem 4 begins here
+     NAME         problem4
+     DATA         problem4
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_convexhull(st_collect(the_geom))as the_geom, 1 as gid from aoi) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 4"
+       STYLE
+         COLOR        233 242 167
+         OUTLINECOLOR 17 81 4
+       END
+     END
+   END # YC Problem 4 layer ends here
+   
+    LAYER # Problem 5 begins here
+     NAME         problem5
+     DATA         problem5
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_buffer(the_geom, 5000) as the_geom, gid from hw) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 5"
+       STYLE
+         COLOR        126 153 138
+         OUTLINECOLOR 0 0 0
+       END
+     END
+   END # YC Problem 5 layer ends here
+   
+    LAYER # Problem 6_1 begins here
+     NAME         problem6_1
+     DATA         problem6_1
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_intersection(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 6_1"
+       STYLE
+         COLOR        233 242 167
+         OUTLINECOLOR 17 81 4
+       END
+     END
+   END # YC Problem 6_1 layer ends here
+   
+    LAYER # Problem 6_2 begins here
+     NAME         problem6_2
+     DATA         problem6_2
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_union(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 6_2"
+       STYLE
+         COLOR        126 153 138
+         OUTLINECOLOR 0 0 0
+       END
+     END
+   END # YC Problem 6_2 layer ends here
+   
+    LAYER # Problem 6_3 begins here
+     NAME         problem6_3
+     DATA         problem6_3
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_difference(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 6_2"
+       STYLE
+         COLOR        233 242 167
+         OUTLINECOLOR 17 81 4
+       END
+     END
+   END # YC Problem 6_3 layer ends here
+   
+    LAYER # Problem 6_4 begins here
+     NAME         problem6_4
+     DATA         problem6_4
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_difference(sd_79.the_geom,cg_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 6_4"
+       STYLE
+         COLOR        126 153 138
+         OUTLINECOLOR 0 0 0
+       END
+     END
+   END # YC Problem 6_4 layer ends here
+   
+    LAYER # Problem 6_5 begins here
+     NAME         problem6_5
+     DATA         problem6_5
+     STATUS       ON
+     TYPE         POLYGON
+     DUMP 	 TRUE
+     CONNECTIONTYPE POSTGIS
+     CONNECTION  "user=demo password=demo dbname=coursedemo host=192.168.88.30"
+     DATA "the_geom from (select st_SymDifference(cg_79.the_geom,sd_79.the_geom) as the_geom,1 as gid from cg_79,sd_79) as foo using unique gid using SRID=2263"
+     TEMPLATE	 spwms.html
+     CLASS
+       NAME       "Problem 6_5"
+       STYLE
+         COLOR        233 242 167
+         OUTLINECOLOR 126 153 138
+       END
+     END
+   END # YC Problem 6_5 layer ends here
+
+ # End of LAYER DEFINITIONS -------------------------------
+
+END # All map files must come to an end just as all other things must come to...
+

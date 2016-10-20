@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <script src="js/OpenLayers.js"></script>
+    <script type="text/javascript">
+        var lon = -73.9;
+        var lat = 40.7;
+        var zoom = 10;
+        var map, l_cd,l_pp;
+        function init(){
+            map = new OpenLayers.Map( 'map' );
+            l_cd = new OpenLayers.Layer.WMS( "All aoi tuples",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem1',format: "image/png"} );
+            map.addLayer(l_cd);
+            l_pp = new OpenLayers.Layer.WMS( "Querying highway routes,that consist of two or more segments",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem2',format: "image/png"} );
+			map.addLayer(l_pp);
+			l_pp1 = new OpenLayers.Layer.WMS( "Querying community districts in Queens",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem3',format: "image/png"} );
+			map.addLayer(l_pp1);
+			l_pp2 = new OpenLayers.Layer.WMS( "Computing the convex hull of the aoi table",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem4',format: "image/png"} );
+			map.addLayer(l_pp2);
+			l_pp3 = new OpenLayers.Layer.WMS( "Generating buffers for the tuples in the hw table using a radius of 5000 feet",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem5',format: "image/png"} );
+			map.addLayer(l_pp3);
+			l_pp4 = new OpenLayers.Layer.WMS( "Intersection",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem6_1',format: "image/png"} );
+			map.addLayer(l_pp4);
+			l_pp5 = new OpenLayers.Layer.WMS( "Union",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem6_2',format: "image/png"} );
+			map.addLayer(l_pp5);
+			l_pp6 = new OpenLayers.Layer.WMS( "A - B",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem6_3',format: "image/png"} );
+			map.addLayer(l_pp6);
+			l_pp7 = new OpenLayers.Layer.WMS( "B - A",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem6_4',format: "image/png"} );
+			map.addLayer(l_pp7);
+			l_pp8 = new OpenLayers.Layer.WMS( "Symmetrical Differences",
+                    "mapscripts/project1_staticwms.php?", {layers: 'problem6_5',format: "image/png"} );
+			map.addLayer(l_pp8);
+            
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+			map.addControl(new OpenLayers.Control.MousePosition({position: new OpenLayers.Pixel(100,0)}));
+            map.addControl(new OpenLayers.Control.LayerSwitcher({'div':OpenLayers.Util.getElement('layerswitcher'),activeColor:'green'}));
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1 id="title">My Proj1</h1>
+    <table><tr>
+    <td><div id="map" style="width:800px; height:600px"></div></td>
+    <td><div id="layerswitcher" style="width:200px; height:600px"></div><td>
+    </tr></table>
+  </body></html>
+
+
+
+
